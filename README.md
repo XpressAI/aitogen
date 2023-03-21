@@ -4,6 +4,8 @@ Inject AI into your Java code with annotations. By leveraging large language
 models to help do hard-to-program things like classificaiton, summarization, 
 translation, and extraction.
 
+Note:  Still very early and not everything shown below works yet.  Stay tuned.  Join [Discord](https://discord.com/invite/vgEg2ZtxCw) if it looks interesting.
+
 ## Example
 
 
@@ -104,7 +106,9 @@ export OPENAI_ORG="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
 AItoGEN is published under the Apache 2.0 License.
 
-## Developers Discord
-Have any questions? Feel free to chat with the devs at our [Discord](https://discord.com/invite/vgEg2ZtxCw)!
+
+
+
+
 
 
