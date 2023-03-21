@@ -1,10 +1,11 @@
 # AItoGEN
 
 Inject AI into your Java code with annotations. By leveraging large language 
-models to help do hard-to-program things like classificaiton, summarization, 
+models to help do hard-to-program things like classification, summarization, 
 translation, and extraction.
 
-Note:  Still very early and not everything shown below works yet.  Stay tuned.  Join [our Discord](https://discord.com/invite/vgEg2ZtxCw) if it looks interesting.
+Note:  Still very early and not everything shown below works yet.  Stay tuned.  
+Join [our Discord](https://discord.com/invite/vgEg2ZtxCw) if it looks interesting.
 
 ## Example
 
