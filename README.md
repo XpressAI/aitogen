@@ -69,6 +69,11 @@ public class SomeController {
 
 ### Maven
 
+
+It is still early days for AItoGEN.  To use it you must first run `mvn install` in this directory.
+
+Then you can add it into your projects with:
+
 ```xml
 
 <dependencies>
@@ -87,12 +92,6 @@ public class SomeController {
 
 ```
 
-### Gradle
-
-```groovy
-implementation 'ai.xpress.aitogen:aitogen-core:0.0.1'
-implementation 'ai.xpress.aitogen:aitogen-openai:0.0.1'
-```
 
 ## Configuration
 
