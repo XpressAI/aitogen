@@ -98,9 +98,10 @@ implementation 'ai.xpress.aitogen:aitogen-openai:0.0.1'
 
 When using AItoGEN with OpenAI you can set the following environment variables.
 
+```bash
 export OPENAI_TOKEN="sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 export OPENAI_ORG="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-
+```
 
 ## License
 
