@@ -103,6 +103,16 @@ export OPENAI_TOKEN="sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 export OPENAI_ORG="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ```
 
+## Roadmap
+
+Feel free to contribute to any of these features.  We are open to new ideas as well.
+
+- [X] Support for spring
+- [ ] Support for Local models 
+- [ ] Input/Response caching
+- [ ] Monitoring and metrics dashboard
+- [ ] Support for more complex chains
+
 ## License
 
 AItoGEN is published under the Apache 2.0 License.
