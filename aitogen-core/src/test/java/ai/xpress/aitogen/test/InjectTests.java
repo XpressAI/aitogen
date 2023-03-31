@@ -1,17 +1,10 @@
-package ai.xpress.aitogen;
+package ai.xpress.aitogen.test;
 
-import ai.xpress.aitogen.AIService;
-import ai.xpress.aitogen.ContextPrompt;
-import ai.xpress.aitogen.Prompt;
-import ai.xpress.aitogen.Define;
-import ai.xpress.aitogen.factory.AIServiceConfiguration;
-import ai.xpress.aitogen.factory.AIServiceFactoryBean;
-import jakarta.inject.Inject;
+import ai.xpress.aitogen.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,13 +14,13 @@ class ContactInfo {
     public String phone;
 }
 
-@AIService(provider="openai", model="text-davinci-003")
+@AIService(provider = "openai", model = "text-davinci-003")
 @ContextPrompt("""
 You are a bot helps a program to understand text.  You should only
 respond with valid JSON identifiers such as: $alternatives.  You should
 respect capitalization and not respond with any other text.
 """)
-interface ClassifierService {
+interface ClassifierService extends AIServiceClient {
     @Prompt("Given the text: \"$text\"")
     @Prompt("Is the text a question?")
     @Define(name="alternatives", values={"true", "false"})
@@ -57,16 +50,16 @@ interface ClassifierService {
 }
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {AppContext.class, AIServiceConfiguration.class})
+@ContextConfiguration(classes = {AppContext.class})
 public class InjectTests {
 
 
-    //@Autowired
-    //private ClassifierService classifierService;
+    @Autowired
+    private ClassifierService classifierService;
 
     @Test
     public void test() {
-        var classifierService = new AIServiceFactoryBean<ClassifierService>(ClassifierService.class).getObject();
+        //var classifierService = new AIServiceFactoryBean<ClassifierService>(ClassifierService.class).getObject();
         Assert.assertNotNull(classifierService);
 
         var res1 = classifierService.isQuestion("Is the sky blue?");

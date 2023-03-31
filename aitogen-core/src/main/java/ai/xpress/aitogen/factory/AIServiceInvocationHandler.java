@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theokanning.openai.service.OpenAiService;
 import com.theokanning.openai.completion.CompletionRequest;
@@ -31,8 +33,10 @@ public class AIServiceInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        AIService aiServiceAnnotation = method.getDeclaringClass().getAnnotation(AIService.class);
-        String model = aiServiceAnnotation.model();
+        // Assuming openai for now.
+        var aiServiceAnnotation = method.getDeclaringClass().getAnnotation(AIService.class);
+        var model = "text-davinci-003";
+
 
         var contextPrompt = method.getDeclaringClass().getAnnotation(ContextPrompt.class);
         var context = (contextPrompt != null) ? contextPrompt.value().trim() : "";
@@ -54,9 +58,11 @@ public class AIServiceInvocationHandler implements InvocationHandler {
             contextData.put(method.getParameters()[i].getName(), args[i]);
         }
         var defineAnnotations = method.getAnnotation(Define.class);
-        var defines = Stream.of(defineAnnotations)
-                .collect(Collectors.toMap(Define::name, d -> String.join(",", d.values())));
-        contextData.putAll(defines);
+        if (defineAnnotations != null) {
+            var defines = Stream.of(defineAnnotations)
+                    .collect(Collectors.toMap(Define::name, d -> String.join(",", d.values())));
+            contextData.putAll(defines);
+        }
 
         var result = processTemplateFromString(fullPrompt, contextData);
 
@@ -73,13 +79,30 @@ public class AIServiceInvocationHandler implements InvocationHandler {
 
         // parse response as valid json:
         var response = completionResponse.getChoices().get(0).getText().trim().toLowerCase();
-        System.out.println("Prompt:" + result);
-        System.out.println("Response: " + response);
-        var mapper = new ObjectMapper();
-        return mapper.readValue(response, method.getReturnType());
+
+        // TODO: Debug log these.
+        //System.out.println("Prompt:" + result);
+        //System.out.println("Response: " + response);
+
+        var mapper = new ObjectMapper().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+
+        try {
+            return mapper.readValue(response, method.getReturnType());
+        } catch (JsonParseException e) {
+            // If the response has some extra text around it, try to parse the json inside it.
+            var firstCurly = response.indexOf('{');
+            var lastCurly = response.lastIndexOf('}');
+            if (firstCurly != -1 && lastCurly != -1) {
+                return mapper.readValue(response.substring(firstCurly, lastCurly + 1), method.getReturnType());
+            } else {
+                // Hope the user expects a string.
+                return response;
+            }
+        }
     }
 
     private String processTemplateFromString(String fullPrompt, HashMap<String, Object> contextData) {
+        // TODO: Cache the engine and prompt repository.
         VelocityEngine engine = new VelocityEngine();
         engine.setProperty(Velocity.RESOURCE_LOADER, "string");
         engine.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());

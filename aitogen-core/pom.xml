@@ -84,8 +84,8 @@
         <configuration>
           <parameters>true</parameters>
           <testCompilerArgument>-parameters</testCompilerArgument>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
+          <source>15</source>
+          <target>15</target>
         </configuration>
       </plugin>
     </plugins>

@@ -1,34 +1,34 @@
 package ai.xpress.aitogen.factory;
 
-import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.config.AbstractFactoryBean;
+import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.Proxy;
 
-public class AIServiceFactoryBean<T> implements FactoryBean<T> {
+@Configuration
+public class AIServiceFactoryBean extends AbstractFactoryBean<Object> {
 
-    private final Class<T> aiServiceInterface;
+    private Class<?> objectType;
 
-    public AIServiceFactoryBean(Class<T> aiServiceInterface) {
-        this.aiServiceInterface = aiServiceInterface;
-    }
-
-    @Override
-    public T getObject() {
-        // Use reflection, proxying, and code generation to create an instance of the AIService implementation
-        return (T) Proxy.newProxyInstance(
-                aiServiceInterface.getClassLoader(),
-                new Class<?>[]{aiServiceInterface},
-                new AIServiceInvocationHandler()
-        );
+    public void setObjectType(Class<?> objectType) {
+        this.objectType = objectType;
     }
 
     @Override
     public Class<?> getObjectType() {
-        return aiServiceInterface;
+        return objectType;
     }
 
     @Override
-    public boolean isSingleton() {
-        return true;
+    protected Object createInstance() throws Exception {
+        try {
+            return Proxy.newProxyInstance(
+                    AIServiceFactoryBean.class.getClassLoader(),
+                    new Class<?>[]{objectType},
+                    new AIServiceInvocationHandler()
+            );
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }
