@@ -7,6 +7,8 @@ translation, and extraction.
 Note:  Still very early and not everything shown below works yet.  Stay tuned.  
 Join [our Discord](https://discord.com/invite/vgEg2ZtxCw) if it looks interesting.
 
+![The vison](thevision.png)
+
 ## Example
 
 
@@ -113,6 +115,7 @@ Feel free to contribute to any of these features.  We are open to new ideas as w
 - [ ] Monitoring and metrics dashboard.
 - [ ] Support for more complex chains.
 - [ ] Integration with vector databases (such as https://vecto.ai) and search engines.
+- [ ] Generating the implementations of methods? (Possible but dangerous.)
 
 ## License
 
