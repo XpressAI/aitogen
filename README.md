@@ -9,6 +9,8 @@ Join [our Discord](https://discord.com/invite/vgEg2ZtxCw) if it looks interestin
 
 ![The vison](thevision.png)
 
+[original image XKCD "tasks"](https://xkcd.com/1425)
+
 ## Example
 
 
