@@ -111,12 +111,14 @@ export OPENAI_ORG="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
 Feel free to contribute to any of these features.  We are open to new ideas as well.
 
-- [X] Support for spring.
-- [ ] Support for Local models. 
+- [X] Support for Spring DI.
+- [ ] Support for CDI.
+- [ ] Support for Local models.
+- [ ] Image classification and multi-modal models.
 - [ ] Input/Response caching.
 - [ ] Monitoring and metrics dashboard.
 - [ ] Support for more complex chains.
-- [ ] Integration with vector databases (such as https://vecto.ai) and search engines.
+- [ ] Integration with plugins such as vector databases (such as [Vecto](https://vecto.ai)) and search engines.
 - [ ] Generating the implementations of methods? (Possible but dangerous.)
 
 ## License

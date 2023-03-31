@@ -20,7 +20,7 @@ You are a bot helps a program to understand text.  You should only
 respond with valid JSON identifiers such as: $alternatives.  You should
 respect capitalization and not respond with any other text.
 """)
-interface ClassifierService extends AIServiceClient {
+interface ClassifierService {
     @Prompt("Given the text: \"$text\"")
     @Prompt("Is the text a question?")
     @Define(name="alternatives", values={"true", "false"})

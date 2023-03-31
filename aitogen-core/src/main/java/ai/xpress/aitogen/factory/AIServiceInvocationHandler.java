@@ -6,7 +6,6 @@ import java.io.StringWriter;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,11 +23,24 @@ import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 
 public class AIServiceInvocationHandler implements InvocationHandler {
 
-    private final OpenAiService openAiService;
+    private final OpenAiService backendService;
+    private final String provider;
+    private final String model;
+    private final double temperature;
+    private final int maxTokens;
 
-    public AIServiceInvocationHandler() {
-        // TODO: Make this configurable from multiple sources.
-        this.openAiService = new OpenAiService(System.getenv("OPENAI_API_KEY"));
+    public AIServiceInvocationHandler(String provider, String model, double temperature, int maxTokens) {
+        this.provider = provider;
+        this.model = model;
+        this.temperature = temperature;
+        this.maxTokens = maxTokens;
+
+        if ("openai".equals(provider)) {
+            // TODO: Make this configurable from multiple sources.
+            this.backendService = new OpenAiService(System.getenv("OPENAI_API_KEY"));
+        } else {
+            throw new IllegalArgumentException("Unknown provider: " + provider);
+        }
     }
 
     @Override
@@ -69,13 +81,13 @@ public class AIServiceInvocationHandler implements InvocationHandler {
         var completionRequest = CompletionRequest.builder()
                 .prompt(result)
                 .model(model)
-                .temperature(0.7)
-                .maxTokens(256)
+                .temperature(temperature)
+                .maxTokens(maxTokens)
                 .echo(false)
                 .build();
 
         // Call the OpenAiService with the request
-        var completionResponse = openAiService.createCompletion(completionRequest);
+        var completionResponse = backendService.createCompletion(completionRequest);
 
         // parse response as valid json:
         var response = completionResponse.getChoices().get(0).getText().trim().toLowerCase();

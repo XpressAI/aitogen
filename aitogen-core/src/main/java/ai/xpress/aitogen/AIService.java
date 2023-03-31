@@ -11,4 +11,8 @@ public @interface AIService {
     String provider();
 
     String model();
+
+    double temperature() default 0.7;
+
+    int maxTokens() default 256;
 }
